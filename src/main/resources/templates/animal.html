@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p th:text="${'Name: ' + animal.getName()}"></p>
+<p th:text="${'Age: ' + animal.getBirth()}"></p>
+<p th:text="${'Salary: ' + animal.getSex()}"></p>
+<a th:href="@{/animal/patch/{id}(id=${animal.getId()})}">Change animal</a>
+<br/>
+<hr/>
+<form th:method="DELETE" th:action="@{/animal/{id}(id=${animal.getId()})}">
+  <input type="submit" value="Delete him!"/>
+</form>
+</body>
+</html>

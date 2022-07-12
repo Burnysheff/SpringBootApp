@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a href="animal.html"> See animal list </a>
+<br/>
+<hr/>
+<br/>
+<form method="POST" th:action="@{/person/find}" th:object="${animal}">
+    <div>
+        <p>Look for some animal:</p>
+        <label for="Id">Id</label>
+        <input type="text" th:field="*{Id}" id="Id">
+        <div style="color:red" th:if="${#fields.hasErrors('Id')}" th:errors="*{Id}">Id Error</div>
+        <br/>
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+</body>
+</html>
