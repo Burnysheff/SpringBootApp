@@ -37,24 +37,37 @@ public class MainController {
         return "newPerson";
     }
 
+    @GetMapping("/newAnimal")
+    public String newAnimal(Model model) {
+        model.addAttribute("animal", new Animal());
+        return "newAnimal";
+    }
     @PostMapping()
     public String addPerson(@Valid @ModelAttribute("person") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "newPerson";
         }
         personRepository.save(user);
-        System.out.println(user.getId());
         return "redirect:/person";
     }
 
     @PostMapping("/find")
     public String find(@ModelAttribute("animal") Animal animal, Model model) {
         if (animalRepository.findById(animal.getId()).isPresent()) {
-            model.addAttribute("animal", animalRepository.findById(animal.getId()));
+            model.addAttribute("animal", animalRepository.findById(animal.getId()).get());
         } else {
             model.addAttribute("animal", new Animal());
         }
+        System.out.println(model.getAttribute("animal"));
         return "animal";
     }
 
+    @PostMapping("/animal")
+    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result) {
+        if (result.hasErrors()) {
+            return "newAnimal";
+        }
+        animalRepository.save(animal);
+        return "redirect:/person";
+    }
 }
