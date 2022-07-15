@@ -1,64 +1,72 @@
 package com.boot.demo.controllers;
 
+import com.boot.demo.dto.AnimalCode;
 import com.boot.demo.model.Animal;
 import com.boot.demo.model.User;
 import com.boot.demo.repos.AnimalRepository;
 import com.boot.demo.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
-@RequestMapping("/person")
-public class MainController {
+@RequestMapping("/person/{id}")
+public class PersonController {
     UserRepository personRepository;
 
     AnimalRepository animalRepository;
 
-    public MainController(UserRepository repository, AnimalRepository animalRepository) {
+    static User currentUser;
+
+    public PersonController(UserRepository repository, AnimalRepository animalRepository) {
         this.personRepository = repository;
         this.animalRepository = animalRepository;
     }
 
     @GetMapping()
-    public String main(Model model) {
-        model.addAttribute("animal", new Animal());
+    public String main(@PathVariable("id") Long id,  Model model) {
+        currentUser = personRepository.findById(id).get();
+        model.addAttribute("animal", new AnimalCode());
+        model.addAttribute("person", currentUser);
         return "person";
-    }
-
-    @GetMapping("/newPerson")
-    public String greeting(Model model) {
-        model.addAttribute("person", new User());
-        return "newPerson";
     }
 
     @GetMapping("/newAnimal")
     public String newAnimal(Model model) {
         model.addAttribute("animal", new Animal());
+        model.addAttribute("person", currentUser);
         return "newAnimal";
     }
+
+    @GetMapping("/listAnimal")
+    public String listAnimal(Model model) {
+        model.addAttribute("person", currentUser);
+        List<Animal> animalList = animalRepository.findAllByOwnerId(currentUser.getId());
+        model.addAttribute("animalList", animalList);
+        return "animalList";
+    }
+
     @PostMapping()
     public String addPerson(@Valid @ModelAttribute("person") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "newPerson";
         }
         personRepository.save(user);
-        return "redirect:/person";
+        return "redirect:/person/" + currentUser.getId();
     }
 
     @PostMapping("/find")
-    public String find(@ModelAttribute("animal") Animal animal, Model model) {
-        if (animalRepository.findById(animal.getId()).isPresent()) {
-            model.addAttribute("animal", animalRepository.findById(animal.getId()).get());
+    public String find(@ModelAttribute("animal") AnimalCode code, Model model) {
+        if (animalRepository.findById(code.getId()).isPresent()) {
+            model.addAttribute("animal", animalRepository.findById(code.getId()).get());
         } else {
             model.addAttribute("animal", new Animal());
         }
-        System.out.println(model.getAttribute("animal"));
+        model.addAttribute("person", currentUser);
         return "animal";
     }
 
@@ -67,7 +75,8 @@ public class MainController {
         if (result.hasErrors()) {
             return "newAnimal";
         }
+        animal.setOwnerId(currentUser.getId());
         animalRepository.save(animal);
-        return "redirect:/person";
+        return "redirect:/person/" + currentUser.getId();
     }
 }

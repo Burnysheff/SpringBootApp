@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>ShowPerson</title>
+</head>
+<body>
+
+<form method="POST" th:action="@{/login}" th:object="${registration}">
+  <div>
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+    <br/>
+
+    <label for="password">Password</label>
+    <input type="text" th:field="*{password}" id="password">
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    <br/>
+
+    <input type="submit" value="Submit">
+  </div>
+</form>
+
+</body>
+</html>

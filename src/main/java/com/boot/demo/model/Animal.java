@@ -15,18 +15,25 @@ import java.util.Date;
 @Table(name = "animals")
 @Entity
 public class Animal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Id", nullable = false)
     Long Id;
 
     @Size(min = 2, message = "Name should be 2 or more symbols long!")
-    @Column(unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Temporal(TemporalType.DATE)
+    @Column(name = "birth", nullable = false)
     private Date birth;
 
     @Size(min = 2, message = "Sex should be at least something!")
+    @Column(name = "sex", nullable = false)
     private String sex;
+
+    @Column(name = "owner", nullable = false)
+    private Long ownerId;
 }
