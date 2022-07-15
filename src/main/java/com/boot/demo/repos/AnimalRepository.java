@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface AnimalRepository extends JpaRepository<Animal, Long> {
+@Repository
+public interface AnimalRepository extends CrudRepository<Animal, Long> {
     List<Animal> findAllByOwnerId(Long ownerId);
 }

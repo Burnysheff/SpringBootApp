@@ -12,13 +12,13 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "people")
+@Table(name = "users")
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id", nullable = false)
+    @GeneratedValue
+    @Column
     Long id;
 
     @Size(min = 2, max = 15, message = "Name should be 2 or more symbols long!")

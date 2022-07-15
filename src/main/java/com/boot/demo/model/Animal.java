@@ -17,9 +17,9 @@ import java.util.Date;
 public class Animal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id", nullable = false)
-    Long Id;
+    @GeneratedValue
+    @Column
+    Long id;
 
     @Size(min = 2, message = "Name should be 2 or more symbols long!")
     @Column(name = "name", nullable = false)

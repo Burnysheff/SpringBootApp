@@ -12,12 +12,12 @@
 <br/>
 <hr/>
 <br/>
-<form method="POST" th:action="@{/person/{id}/find(id=${person.getId()})}" th:object="${animal}">
+<p>Look for some animal:</p>
+<form method="POST" th:action="@{/person/{id}/find(id=${person.getId()})}" th:object="${animalCode}">
     <div>
-        <p>Look for some animal:</p>
-        <label for="Id">Id</label>
-        <input type="text" th:field="*{Id}" id="Id">
-        <div style="color:red" th:if="${#fields.hasErrors('Id')}" th:errors="*{Id}">Id Error</div>
+        <label for="value">Value</label>
+        <input type="text" th:field="*{value}" id="value">
+        <div style="color:red" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value Error</div>
         <br/>
         <input type="submit" value="Submit">
     </div>

@@ -44,7 +44,7 @@ public class EntryController {
             return "newPerson";
         }
         User user = new User(registrationData.name, registrationData.password);
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         return "redirect:/person/" + user.getId();
     }
 

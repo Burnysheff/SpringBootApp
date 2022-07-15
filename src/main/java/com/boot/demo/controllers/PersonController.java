@@ -30,22 +30,22 @@ public class PersonController {
     @GetMapping()
     public String main(@PathVariable("id") Long id,  Model model) {
         currentUser = personRepository.findById(id).get();
-        model.addAttribute("animal", new AnimalCode());
         model.addAttribute("person", currentUser);
+        model.addAttribute("animalCode", new AnimalCode());
         return "person";
     }
 
     @GetMapping("/newAnimal")
     public String newAnimal(Model model) {
-        model.addAttribute("animal", new Animal());
         model.addAttribute("person", currentUser);
+        model.addAttribute("animal", new Animal());
         return "newAnimal";
     }
 
     @GetMapping("/listAnimal")
     public String listAnimal(Model model) {
-        model.addAttribute("person", currentUser);
         List<Animal> animalList = animalRepository.findAllByOwnerId(currentUser.getId());
+        model.addAttribute("person", currentUser);
         model.addAttribute("animalList", animalList);
         return "animalList";
     }
@@ -60,9 +60,9 @@ public class PersonController {
     }
 
     @PostMapping("/find")
-    public String find(@ModelAttribute("animal") AnimalCode code, Model model) {
-        if (animalRepository.findById(code.getId()).isPresent()) {
-            model.addAttribute("animal", animalRepository.findById(code.getId()).get());
+    public String find(@Valid @ModelAttribute("animalCode") AnimalCode code, BindingResult result, Model model) {
+        if (animalRepository.findById(code.getValue()).isPresent()) {
+            model.addAttribute("animal", animalRepository.findById(code.getValue()).get());
         } else {
             model.addAttribute("animal", new Animal());
         }
@@ -71,7 +71,7 @@ public class PersonController {
     }
 
     @PostMapping("/animal")
-    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result) {
+    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "newAnimal";
         }

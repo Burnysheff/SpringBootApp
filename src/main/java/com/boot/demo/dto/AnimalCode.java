@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class AnimalCode {
-    public Long Id;
+
+    @Min(value = 1, message = "Enter a value!")
+    Long value;
 }
