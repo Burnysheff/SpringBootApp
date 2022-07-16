@@ -16,9 +16,10 @@
 <form method="POST" th:action="@{/person/{id}/find(id=${person.getId()})}" th:object="${animalCode}">
     <div>
         <label for="value">Value</label>
-        <input type="text" th:field="*{value}" id="value">
+        <input type="number" th:field="*{value}" id="value">
         <div style="color:red" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value Error</div>
         <br/>
+
         <input type="submit" value="Submit">
     </div>
 </form>

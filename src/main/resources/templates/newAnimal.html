@@ -13,9 +13,9 @@
         <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
         <br/>
 
-        <label for="birth">Birth</label>
-        <input type="text" th:field="*{birth}" id="birth">
-        <div style="color:red" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Birth error</div>
+        <label for="birth">Date of birth:</label>
+        <input type="date" th:field="*{birth}" id="birth"/>
+        <div style="color:red" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Name Error</div>
         <br/>
 
         <label for="sex">Sex</label>

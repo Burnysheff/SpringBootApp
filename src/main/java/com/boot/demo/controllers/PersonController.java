@@ -47,32 +47,31 @@ public class PersonController {
         List<Animal> animalList = animalRepository.findAllByOwnerId(currentUser.getId());
         model.addAttribute("person", currentUser);
         model.addAttribute("animalList", animalList);
-        return "animalList";
-    }
-
-    @PostMapping()
-    public String addPerson(@Valid @ModelAttribute("person") User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "newPerson";
+        if (animalList.isEmpty()) {
+            return "nothing";
         }
-        personRepository.save(user);
-        return "redirect:/person/" + currentUser.getId();
+        return "animalList";
     }
 
     @PostMapping("/find")
     public String find(@Valid @ModelAttribute("animalCode") AnimalCode code, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("person", currentUser);
+            return "person";
+        }
+        model.addAttribute("person", currentUser);
         if (animalRepository.findById(code.getValue()).isPresent()) {
             model.addAttribute("animal", animalRepository.findById(code.getValue()).get());
         } else {
-            model.addAttribute("animal", new Animal());
+            return "nothing";
         }
-        model.addAttribute("person", currentUser);
         return "animal";
     }
 
     @PostMapping("/animal")
     public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("person", currentUser);
             return "newAnimal";
         }
         animal.setOwnerId(currentUser.getId());
