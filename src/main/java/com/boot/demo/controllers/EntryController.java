@@ -40,26 +40,20 @@ public class EntryController {
     @GetMapping("/registration")
     public String auth(Model model) {
         model.addAttribute("registration", new RegistrationData());
-        return "newPerson";
+        return "registration";
     }
 
     @PostMapping("/registration")
     public String auth(@Valid @ModelAttribute("registration") RegistrationData registrationData, BindingResult result) {
         if (result.hasErrors()) {
-            return "newPerson";
+            return "registration";
         }
         if (userService.wasCreated(registrationData.name)) {
             ObjectError error = new ObjectError("globalError", "There is a user with such a name!");
             result.addError(error);
-            return "newPerson";
+            return "registration";
         }
         userService.addUser(registrationData.name, registrationData.password);
-        return "redirect:/person/" + userService.findIdByName(registrationData.name);
-    }
-
-    @GetMapping("/success")
-    public String getIn() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "redirect:/person/" + ((User) authentication.getPrincipal()).getId();
+        return "redirect:/";
     }
 }

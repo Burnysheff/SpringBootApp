@@ -31,14 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                     .disable()
                 .authorizeRequests()
-                    //Доступ только для не зарегистрированных пользователей
-                    .antMatchers("/auth").not().fullyAuthenticated()
+                    .antMatchers("/registration").not().fullyAuthenticated()
                     .antMatchers("/").permitAll()
-                    //.anyRequest().authenticated()
+                    .anyRequest().authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/success")
+                    .defaultSuccessUrl("/person")
                     .permitAll();
     }
 

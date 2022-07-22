@@ -59,6 +59,6 @@ public class AnimalController {
     @DeleteMapping("/{id}")
     public String deleteAnimal(@PathVariable("id") Long id, Model model) {
         animalService.deleteAnimal(animalService.findById(id));
-        return "redirect:/person/" + userService.current.getId();
+        return "redirect:/person";
     }
 }

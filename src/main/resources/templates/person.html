@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<a th:href="@{/person/{id}/newAnimal(id=${person.getId()})}"> Create Animal </a>
+<a th:href="@{/person/newAnimal}"> Create Animal </a>
 <br/>
-<a th:href="@{/person/{id}/listAnimal(id=${person.getId()})}"> See my animals </a>
+<a th:href="@{/person/listAnimal}"> See my animals </a>
 <br/>
 <hr/>
 <br/>
 <p>Look for some animal:</p>
-<form method="POST" th:action="@{/person/{id}/find(id=${person.getId()})}" th:object="${animalCode}">
+<form method="POST" th:action="@{/person/find}" th:object="${animalCode}">
     <div>
         <label for="value">Value</label>
         <input type="number" th:field="*{value}" id="value">

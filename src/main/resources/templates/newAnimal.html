@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="POST" th:action="@{/person/{id}/animal(id=${person.getId()})}" th:object="${animal}">
+<form method="POST" th:action="@{/person/animal}" th:object="${animal}">
     <div>
         <label for="name">Name</label>
         <input type="text" th:field="*{name}" id="name">
@@ -28,7 +28,7 @@
 </form>
 
 <br/>
-<a th:href="@{/person/{id}(id=${person.getId()})}"> Back to person </a>
+<a th:href="@{/person}"> Back to person </a>
 
 </body>
 </html>

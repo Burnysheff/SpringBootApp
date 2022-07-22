@@ -7,6 +7,8 @@ import com.boot.demo.repos.AnimalRepository;
 import com.boot.demo.repos.UserRepository;
 import com.boot.demo.service.AnimalService;
 import com.boot.demo.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/person/{id}")
+@RequestMapping("/person")
 public class PersonController {
     UserService userService;
 
@@ -28,8 +30,8 @@ public class PersonController {
     }
 
     @GetMapping()
-    public String main(@PathVariable("id") Long id,  Model model) {
-        userService.current = userService.findUserById(id);
+    public String main(Model model) {
+        userService.current = userService.findUserById(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         model.addAttribute("person", userService.current);
         model.addAttribute("animalCode", new AnimalCode());
         return "person";
@@ -76,6 +78,6 @@ public class PersonController {
         }
         animal.setOwnerId(userService.current.getId());
         animalService.saveAnimal(animal);
-        return "redirect:/person/" + userService.current.getId();
+        return "redirect:/person";
     }
 }
