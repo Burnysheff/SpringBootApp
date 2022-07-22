@@ -4,6 +4,8 @@ import com.boot.demo.model.Animal;
 import com.boot.demo.model.User;
 import com.boot.demo.repos.AnimalRepository;
 import com.boot.demo.repos.UserRepository;
+import com.boot.demo.service.AnimalService;
+import com.boot.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,26 +18,26 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/animal")
 public class AnimalController {
-    AnimalRepository animalRepository;
+    AnimalService animalService;
 
-    UserRepository userRepository;
+    UserService userService;
 
-    public AnimalController(AnimalRepository animalRepository, UserRepository userRepository) {
-        this.animalRepository = animalRepository;
-        this.userRepository = userRepository;
+    public AnimalController(AnimalService animalService, UserService userService) {
+        this.animalService = animalService;
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
     public String showAnimal(@PathVariable("id") Long id, Model model) {
-        Animal animal = animalRepository.findById(id).get();
+        Animal animal = animalService.findById(id);
         model.addAttribute("animal", animal);
-        model.addAttribute("person", PersonController.currentUser);
+        model.addAttribute("person", userService.current);
         return "animal";
     }
 
     @GetMapping("/patch/{id}")
     public String goToChange(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("animal", animalRepository.findById(id).get());
+        model.addAttribute("animal", animalService.findById(id));
         return "changeAnimal";
     }
 
@@ -44,19 +46,19 @@ public class AnimalController {
         if (result.hasErrors()) {
             return "changeAnimal";
         }
-        Animal old = animalRepository.findById(id).get();
+        Animal old = animalService.findById(id);
         old.setName(animal.getName());
         old.setBirth(animal.getBirth());
         old.setSex(animal.getSex());
-        animalRepository.save(old);
+        animalService.saveAnimal(old);
         model.addAttribute("animal", animal);
-        model.addAttribute("person", PersonController.currentUser);
+        model.addAttribute("person", userService.current);
         return "animal";
     }
 
     @DeleteMapping("/{id}")
     public String deleteAnimal(@PathVariable("id") Long id, Model model) {
-        animalRepository.delete(animalRepository.findById(id).get());
-        return "redirect:/person/" + PersonController.currentUser.getId();
+        animalService.deleteAnimal(animalService.findById(id));
+        return "redirect:/person/" + userService.current.getId();
     }
 }

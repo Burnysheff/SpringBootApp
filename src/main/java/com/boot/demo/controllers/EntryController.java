@@ -4,6 +4,9 @@ import com.boot.demo.dto.RegistrationData;
 import com.boot.demo.model.Animal;
 import com.boot.demo.model.User;
 import com.boot.demo.repos.UserRepository;
+import com.boot.demo.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,15 +14,16 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @Controller
 public class EntryController {
-    UserRepository userRepository;
+    UserService userService;
 
-    public EntryController (UserRepository repository) {
-        this.userRepository = repository;
+    public EntryController (UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -30,7 +34,7 @@ public class EntryController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("registration", new RegistrationData());
-        return "logPerson";
+        return "login";
     }
 
     @GetMapping("/registration")
@@ -39,37 +43,23 @@ public class EntryController {
         return "newPerson";
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/registration")
     public String auth(@Valid @ModelAttribute("registration") RegistrationData registrationData, BindingResult result) {
         if (result.hasErrors()) {
             return "newPerson";
         }
-        if (!userRepository.findAllByName(registrationData.name).isEmpty()) {
+        if (userService.wasCreated(registrationData.name)) {
             ObjectError error = new ObjectError("globalError", "There is a user with such a name!");
             result.addError(error);
             return "newPerson";
         }
-        User user = new User(registrationData.name, registrationData.password);
-        userRepository.save(user);
-        return "redirect:/person/" + user.getId();
+        userService.addUser(registrationData.name, registrationData.password);
+        return "redirect:/person/" + userService.findIdByName(registrationData.name);
     }
 
-    @PostMapping("/login")
-    public String log(@Valid @ModelAttribute("registration") RegistrationData registrationData, BindingResult result) {
-        if (result.hasErrors()) {
-            return "logPerson";
-        }
-        if (userRepository.findAllByName(registrationData.name).isEmpty()) {
-            ObjectError error = new ObjectError("globalError", "No such user!");
-            result.addError(error);
-            return "logPerson";
-        }
-        User user = userRepository.findByName(registrationData.name);
-        if (!user.getPassword().equals(registrationData.password)) {
-            ObjectError error = new ObjectError("globalError", "Wrong password!");
-            result.addError(error);
-            return "logPerson";
-        }
-        return "redirect:/person/" + user.getId();
+    @GetMapping("/success")
+    public String getIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return "redirect:/person/" + ((User) authentication.getPrincipal()).getId();
     }
 }

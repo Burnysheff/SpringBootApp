@@ -1,9 +1,10 @@
-/**package com.boot.demo.service;
+package com.boot.demo.service;
 
-import com.boot.demo.repos.AnimalRepository;
-import com.boot.demo.repos.PersonRepository;
+import com.boot.demo.model.User;
+import com.boot.demo.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,24 +13,54 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    PersonRepository userRepository;
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
-    @Autowired
-    AnimalRepository animalRepository;
-
-    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public User current;
+
+    UserRepository userRepository;
+
+    public UserService(UserRepository repository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = repository;
+    }
+
+    public boolean wasCreated(String name) {
+        return !userRepository.findAllByName(name).isEmpty();
+    }
+
+    public void addUser(String login, String password) {
+        User user = new User(login, password);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public Long findIdByName(String name) {
+        User user = userRepository.findByName(name);
+        return user.getId();
+    }
+
+    public User findUserByName(String name) {
+        return userRepository.findByName(name);
+    }
+
+    public User findUserById(Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            return userRepository.findById(id).get();
+        } else {
+            return new User();
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+        if (userRepository.findByName(username) != null) {
+            return userRepository.findByName(username);
         }
-        return user;
+        throw new UsernameNotFoundException("User not found");
     }
-
-
 }
-*/

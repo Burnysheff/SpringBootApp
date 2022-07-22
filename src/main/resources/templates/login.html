@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>ShowPerson</title>
+</head>
+<body>
+
+<div>
+  <form method="POST" action="/login">
+    <h2>Вход в систему</h2>
+    <label>
+      <input name="username" type="text" placeholder="Username"/>
+    </label>
+    <label>
+      <input name="password" type="password" placeholder="Password"/>
+    </label>
+    <button type="submit">Log In</button>
+  </form>
+</div>
+
+<a th:href="@{/}">Go back</a>
+
+</body>
+</html>

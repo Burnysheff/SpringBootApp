@@ -5,6 +5,8 @@ import com.boot.demo.model.Animal;
 import com.boot.demo.model.User;
 import com.boot.demo.repos.AnimalRepository;
 import com.boot.demo.repos.UserRepository;
+import com.boot.demo.service.AnimalService;
+import com.boot.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,36 +18,34 @@ import java.util.List;
 @Controller
 @RequestMapping("/person/{id}")
 public class PersonController {
-    UserRepository personRepository;
+    UserService userService;
 
-    AnimalRepository animalRepository;
+    AnimalService animalService;
 
-    static User currentUser;
-
-    public PersonController(UserRepository repository, AnimalRepository animalRepository) {
-        this.personRepository = repository;
-        this.animalRepository = animalRepository;
+    public PersonController(UserService userService, AnimalService animalService) {
+        this.userService = userService;
+        this.animalService = animalService;
     }
 
     @GetMapping()
     public String main(@PathVariable("id") Long id,  Model model) {
-        currentUser = personRepository.findById(id).get();
-        model.addAttribute("person", currentUser);
+        userService.current = userService.findUserById(id);
+        model.addAttribute("person", userService.current);
         model.addAttribute("animalCode", new AnimalCode());
         return "person";
     }
 
     @GetMapping("/newAnimal")
     public String newAnimal(Model model) {
-        model.addAttribute("person", currentUser);
+        model.addAttribute("person", userService.current);
         model.addAttribute("animal", new Animal());
         return "newAnimal";
     }
 
     @GetMapping("/listAnimal")
     public String listAnimal(Model model) {
-        List<Animal> animalList = animalRepository.findAllByOwnerId(currentUser.getId());
-        model.addAttribute("person", currentUser);
+        List<Animal> animalList = animalService.findAllByOwnerId(userService.current.getId());
+        model.addAttribute("person", userService.current);
         model.addAttribute("animalList", animalList);
         if (animalList.isEmpty()) {
             return "nothing";
@@ -56,12 +56,12 @@ public class PersonController {
     @PostMapping("/find")
     public String find(@Valid @ModelAttribute("animalCode") AnimalCode code, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("person", currentUser);
+            model.addAttribute("person", userService.current);
             return "person";
         }
-        model.addAttribute("person", currentUser);
-        if (animalRepository.findById(code.getValue()).isPresent()) {
-            model.addAttribute("animal", animalRepository.findById(code.getValue()).get());
+        model.addAttribute("person", userService.current);
+        if (animalService.checkPresentById(code.getValue())) {
+            model.addAttribute("animal", animalService.findById(code.getValue()));
         } else {
             return "nothing";
         }
@@ -71,11 +71,11 @@ public class PersonController {
     @PostMapping("/animal")
     public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("person", currentUser);
+            model.addAttribute("person", userService.current);
             return "newAnimal";
         }
-        animal.setOwnerId(currentUser.getId());
-        animalRepository.save(animal);
-        return "redirect:/person/" + currentUser.getId();
+        animal.setOwnerId(userService.current.getId());
+        animalService.saveAnimal(animal);
+        return "redirect:/person/" + userService.current.getId();
     }
 }
