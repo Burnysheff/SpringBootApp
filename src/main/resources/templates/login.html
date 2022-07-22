@@ -19,6 +19,8 @@
   </form>
 </div>
 
+<div class="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
 <a th:href="@{/}">Go back</a>
 
 </body>
