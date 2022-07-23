@@ -2,7 +2,6 @@ package com.boot.demo.service;
 
 import com.boot.demo.model.User;
 import com.boot.demo.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;

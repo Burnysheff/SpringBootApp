@@ -1,19 +1,14 @@
 package com.boot.demo.controllers;
 
 import com.boot.demo.model.Animal;
-import com.boot.demo.model.User;
-import com.boot.demo.repos.AnimalRepository;
-import com.boot.demo.repos.UserRepository;
 import com.boot.demo.service.AnimalService;
 import com.boot.demo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/animal")
