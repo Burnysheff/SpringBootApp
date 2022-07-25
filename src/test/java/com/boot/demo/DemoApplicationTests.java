@@ -31,7 +31,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	public void contextLoads() {
+	public void checkEncode() {
 		when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded");
 		UserService service = new UserService(userRepository, bCryptPasswordEncoder);
 		service.addUser("name", "password");

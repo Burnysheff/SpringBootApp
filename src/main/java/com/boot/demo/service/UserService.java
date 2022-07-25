@@ -38,11 +38,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public Long findIdByName(String name) {
-        User user = userRepository.findByName(name);
-        return user.getId();
-    }
-
     public User findUserByName(String name) {
         return userRepository.findByName(name);
     }
