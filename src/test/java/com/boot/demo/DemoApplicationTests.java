@@ -3,6 +3,7 @@ package com.boot.demo;
 import com.boot.demo.repos.UserRepository;
 import com.boot.demo.service.UserService;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -14,11 +15,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
 class UserServiceTest {
+	private UserService service;
+
 	@Mock
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -30,11 +34,30 @@ class UserServiceTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
+	@BeforeEach
+	public void set() {
+		when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded");
+		this.service = new UserService(userRepository, bCryptPasswordEncoder);
+		service.addUser("name", "password");
+	}
+
+	@Test
+	public void checkFindingById() {
+		assertEquals(service.findUserById(1L).getName(), "name");
+	}
+
 	@Test
 	public void checkEncode() {
-		when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded");
-		UserService service = new UserService(userRepository, bCryptPasswordEncoder);
-		service.addUser("name", "password");
 		assertEquals(service.findUserByName("name").getPassword(), "encoded");
+	}
+
+	@Test
+	public void checkCreated() {
+		assertTrue(service.wasCreated("name"));
+	}
+
+	@Test
+	public void checkLoadByUsername() {
+		assertEquals(service.loadUserByUsername("name").getPassword(), "encoded");
 	}
 }
