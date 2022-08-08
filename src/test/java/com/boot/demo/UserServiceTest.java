@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,11 +38,6 @@ class UserServiceTest {
 		when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded");
 		this.service = new UserService(userRepository, bCryptPasswordEncoder);
 		service.addUser("name", "password");
-	}
-
-	@Test
-	public void checkFindingById() {
-		assertEquals(service.findUserById(1L).getName(), "name");
 	}
 
 	@Test
