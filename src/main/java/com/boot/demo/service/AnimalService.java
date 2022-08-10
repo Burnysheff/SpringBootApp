@@ -1,6 +1,7 @@
 package com.boot.demo.service;
 
 import com.boot.demo.model.Animal;
+import com.boot.demo.model.User;
 import com.boot.demo.repos.AnimalRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class AnimalService {
         this.animalRepository = animalRepository;
     }
 
-    public List<Animal> findAllByOwnerId(Long id) {
-        return animalRepository.findAllByOwnerId(id);
+    public List<Animal> findAllByOwnerId(User user) {
+        return animalRepository.findAllByOwner(user);
     }
 
     public boolean checkPresentById(Long id) {

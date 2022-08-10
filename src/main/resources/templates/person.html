@@ -15,7 +15,7 @@
 <p>Look for some animal:</p>
 <form method="POST" th:action="@{/person/find}" th:object="${animalCode}">
     <div>
-        <label for="value">Value</label>
+        <label for="value">Id:</label>
         <input type="number" th:field="*{value}" id="value">
         <div style="color:red" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value Error</div>
         <br/>

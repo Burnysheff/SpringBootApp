@@ -42,8 +42,8 @@ public class PersonController {
     }
 
     @GetMapping("/listAnimal")
-    public @ResponseBody String listAnimal(Model model) {
-        List<Animal> animalList = animalService.findAllByOwnerId(userService.current.getId());
+    public String listAnimal(Model model) {
+        List<Animal> animalList = animalService.findAllByOwnerId(userService.current);
         model.addAttribute("person", userService.current);
         model.addAttribute("animalList", animalList);
         if (animalList.isEmpty()) {
@@ -73,7 +73,7 @@ public class PersonController {
             model.addAttribute("person", userService.current);
             return "newAnimal";
         }
-        animal.setOwnerId(userService.current.getId());
+        animal.setOwner(userService.current);
         animalService.saveAnimal(animal);
         return "redirect:/person";
     }

@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,8 +22,8 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    @Column
-    Long id;
+    @Column(name = "owner_id")
+    Long Id;
 
     @Size(min = 2, max = 15, message = "Name should be 2 or more symbols long!")
     @Column(name = "name", nullable = false)
@@ -30,6 +32,9 @@ public class User implements UserDetails {
     @Size(min = 2, message = "Password should be 2 or more symbols long!")
     @Column(name = "password", nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Animal> animalList;
 
     public User(String name, String password) {
         this.name = name;

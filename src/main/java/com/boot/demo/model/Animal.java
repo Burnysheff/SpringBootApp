@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,8 +21,8 @@ public class Animal {
 
     @Id
     @GeneratedValue
-    @Column
-    Long id;
+    @Column(name="animal_id")
+    Long Id;
 
     @Size(min = 2, message = "Name should be 2 or more symbols long!")
     @Column(name = "name", nullable = false)
@@ -36,6 +37,7 @@ public class Animal {
     @Column(name = "sex", nullable = false)
     private String sex;
 
-    @Column(name = "owner", nullable = false)
-    private Long ownerId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 }
