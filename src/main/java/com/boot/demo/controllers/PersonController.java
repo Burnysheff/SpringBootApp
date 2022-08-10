@@ -2,7 +2,9 @@ package com.boot.demo.controllers;
 
 import com.boot.demo.dto.AnimalCode;
 import com.boot.demo.model.Animal;
+import com.boot.demo.model.AnimalUser;
 import com.boot.demo.model.User;
+import com.boot.demo.repos.AnimalUserRepository;
 import com.boot.demo.service.AnimalService;
 import com.boot.demo.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,9 +23,12 @@ public class PersonController {
 
     AnimalService animalService;
 
-    public PersonController(UserService userService, AnimalService animalService) {
+    AnimalUserRepository animalUserRepository;
+
+    public PersonController(UserService userService, AnimalService animalService, AnimalUserRepository animalUserRepository) {
         this.userService = userService;
         this.animalService = animalService;
+        this.animalUserRepository = animalUserRepository;
     }
 
     @GetMapping()
@@ -73,8 +78,8 @@ public class PersonController {
             model.addAttribute("person", userService.current);
             return "newAnimal";
         }
-        animal.setOwner(userService.current);
         animalService.saveAnimal(animal);
+        animalUserRepository.save(new AnimalUser(userService.current, animal));
         return "redirect:/person";
     }
 }

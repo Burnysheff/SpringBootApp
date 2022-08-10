@@ -36,8 +36,4 @@ public class Animal {
     @Size(min = 2, message = "Sex should be at least something!")
     @Column(name = "sex", nullable = false)
     private String sex;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User owner;
 }

@@ -33,9 +33,6 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Animal> animalList;
-
     public User(String name, String password) {
         this.name = name;
         this.password = password;
