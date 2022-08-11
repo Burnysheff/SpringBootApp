@@ -7,7 +7,7 @@
 <body>
     <p th:text="${'Name: ' + animal.getName()}"></p>
     <p th:text="${'Birth: ' + animal.getBirth()}"></p>
-    <p th:text="${'Sex: ' + animal.getSex()}"></p>
+    <p th:text="${'Sex: ' + animal.getType()}"></p>
     <p th:text="${'ID: ' + animal.getId()}"></p>
     <a th:href="@{/animal/patch/{id}(id=${animal.getId()})}">Change animal</a>
 <br/>
@@ -20,4 +20,8 @@
 
 <br/>
 <a th:href="@{/person}"> Back to person </a>
+
+<br/>
+<hr/>
+<a th:href="@{/animal/review/{id}(id=${animal.getId()})}"> See reviews </a>
 </html>

@@ -23,12 +23,9 @@ public class PersonController {
 
     AnimalService animalService;
 
-    AnimalUserRepository animalUserRepository;
-
-    public PersonController(UserService userService, AnimalService animalService, AnimalUserRepository animalUserRepository) {
+    public PersonController(UserService userService, AnimalService animalService) {
         this.userService = userService;
         this.animalService = animalService;
-        this.animalUserRepository = animalUserRepository;
     }
 
     @GetMapping()
@@ -48,7 +45,7 @@ public class PersonController {
 
     @GetMapping("/listAnimal")
     public String listAnimal(Model model) {
-        List<Animal> animalList = animalService.findAllByOwnerId(userService.current);
+        List<Animal> animalList = animalService.findAllByOwner(userService.current);
         model.addAttribute("person", userService.current);
         model.addAttribute("animalList", animalList);
         if (animalList.isEmpty()) {
@@ -79,7 +76,7 @@ public class PersonController {
             return "newAnimal";
         }
         animalService.saveAnimal(animal);
-        animalUserRepository.save(new AnimalUser(userService.current, animal));
+        userService.connectUserAnimal(animal);
         return "redirect:/person";
     }
 }

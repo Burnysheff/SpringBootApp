@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form method="POST" th:action="@{/animal/review/{id}(id=${animal.getId()})}" th:object="${review}">
+        <div>
+            <label for="text">Your review:</label>
+            <input type="text" th:field="*{text}" id="text">
+            <div style="color:red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text Error</div>
+            <br/>
+
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <br/>
+    <hr/>
+    <a th:href="@{/animal/review/{id}(id=${animal.getId()})}">Back to reviews</a>
+
+</body>
+</html>

@@ -1,6 +1,9 @@
 package com.boot.demo.service;
 
+import com.boot.demo.model.Animal;
+import com.boot.demo.model.AnimalUser;
 import com.boot.demo.model.User;
+import com.boot.demo.repos.AnimalUserRepository;
 import com.boot.demo.repos.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -23,9 +26,12 @@ public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
 
-    public UserService(UserRepository repository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+    AnimalUserRepository animalUserRepository;
+
+    public UserService(UserRepository repository, AnimalUserRepository animalUserRepository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = repository;
+        this.animalUserRepository = animalUserRepository;
     }
 
     public boolean wasCreated(String name) {
@@ -48,6 +54,10 @@ public class UserService implements UserDetailsService {
         } else {
             return new User();
         }
+    }
+
+    public void connectUserAnimal(Animal animal) {
+        animalUserRepository.save(new AnimalUser(this.current, animal));
     }
 
     @Override

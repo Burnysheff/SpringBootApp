@@ -3,14 +3,12 @@ package com.boot.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -33,7 +31,7 @@ public class Animal {
     @Column(name = "birth", nullable = false)
     private Date birth;
 
-    @Size(min = 2, message = "Sex should be at least something!")
-    @Column(name = "sex", nullable = false)
-    private String sex;
+    @Size(min = 2, message = "Type should be at least something!")
+    @Column(name = "type", nullable = false)
+    private String type;
 }

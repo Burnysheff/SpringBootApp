@@ -1,6 +1,5 @@
 package com.boot.demo.repos;
 
-import com.boot.demo.model.Animal;
 import com.boot.demo.model.AnimalUser;
 import com.boot.demo.model.User;
 import org.springframework.data.repository.CrudRepository;
