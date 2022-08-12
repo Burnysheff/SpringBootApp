@@ -36,7 +36,10 @@ public class AnimalController {
     @GetMapping("/patch/{id}")
     public String goToChange(Model model, @PathVariable("id") Long id) {
         model.addAttribute("animal", animalService.findById(id));
-        return "changeAnimal";
+        if (!animalService.findAllByOwner(userService.current).contains(animalService.getAnimalById(id))) {
+            return "changereject";
+        }
+        return "changeanimal";
     }
 
     @GetMapping("/review/{id}")
