@@ -1,5 +1,6 @@
 package com.boot.demo.controllers;
 
+import com.boot.demo.dto.FeedForAnimal;
 import com.boot.demo.dto.ReviewText;
 import com.boot.demo.model.Animal;
 import com.boot.demo.model.Review;
@@ -30,12 +31,14 @@ public class AnimalController {
         Animal animal = animalService.findById(id);
         model.addAttribute("animal", animal);
         model.addAttribute("person", userService.current);
+        model.addAttribute("feeds", animalService.getFeeds(animal));
         return "animal";
     }
 
     @GetMapping("/patch/{id}")
     public String goToChange(Model model, @PathVariable("id") Long id) {
         model.addAttribute("animal", animalService.findById(id));
+        model.addAttribute("feed", new FeedForAnimal());
         if (!animalService.findAllByOwner(userService.current).contains(animalService.getAnimalById(id))) {
             return "changereject";
         }
@@ -75,7 +78,8 @@ public class AnimalController {
     }
 
     @PatchMapping("/{id}")
-    public String changeAnimal(@PathVariable("id") Long id, @Valid @ModelAttribute("animal") Animal animal, BindingResult result, Model model) {
+    public String changeAnimal(@PathVariable("id") Long id, @Valid @ModelAttribute("animal") Animal animal, BindingResult result,
+                               @Valid @ModelAttribute("feed") FeedForAnimal feed, Model model) {
         if (result.hasErrors()) {
             return "changeAnimal";
         }
@@ -84,8 +88,10 @@ public class AnimalController {
         old.setBirth(animal.getBirth());
         old.setType(animal.getType());
         animalService.saveAnimal(old);
+        animalService.changeFeeds(old, feed);
         model.addAttribute("animal", animal);
         model.addAttribute("person", userService.current);
+        model.addAttribute("feeds", animalService.getFeeds(animal));
         return "animal";
     }
 

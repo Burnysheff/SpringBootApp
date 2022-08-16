@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="POST" th:action="@{/person/animal}" th:object="${animal}">
+<form method="POST" name="form1" th:action="@{/person/animal}" th:object="${animal}">
     <div>
         <label for="name">Name</label>
         <input type="text" th:field="*{name}" id="name">
@@ -15,17 +15,38 @@
 
         <label for="birth">Date of birth:</label>
         <input type="date" th:field="*{birth}" id="birth"/>
-        <div style="color:red" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Name Error</div>
+        <div style="color:red" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Birth Error</div>
         <br/>
 
         <label for="type">Type</label>
         <input type="text" th:field="*{type}" id="type">
         <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type error</div>
         <br/>
-
-        <input type="submit" value="Submit">
+    </div>
+    <br/>
+    <div th:object="${feed}">
+        <label for="meat">Meat</label>
+        <input id="meat" type="checkbox" name="meat"/>
+        <br/>
+        <label for="fruit">Fruit</label>
+        <input id="fruit" type="checkbox" name="fruit"/>
+        <br/>
+        <label for="veges">Veges</label>
+        <input id="veges" type="checkbox" name="veges"/>
+        <br/>
     </div>
 </form>
+
+<br/>
+<hr/>
+
+<input type="button" value="Create" onclick="submitForms()"/>
+
+<script>
+    submitForms = function() {
+        document.forms["form1"].submit();
+    }
+</script>
 
 <br/>
 <a th:href="@{/person}"> Back to person </a>

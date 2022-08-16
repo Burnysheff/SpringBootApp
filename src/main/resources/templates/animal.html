@@ -9,6 +9,11 @@
     <p th:text="${'Birth: ' + animal.getBirth()}"></p>
     <p th:text="${'Sex: ' + animal.getType()}"></p>
     <p th:text="${'ID: ' + animal.getId()}"></p>
+    <br/>
+    <p>Feed with:</p>
+    <div th:each="feed : ${feeds}">
+        <p th:text="${feed}">feed</p>
+    </div>
     <a th:href="@{/animal/patch/{id}(id=${animal.getId()})}">Change animal</a>
 <br/>
 <hr/>

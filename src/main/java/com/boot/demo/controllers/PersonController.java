@@ -1,6 +1,7 @@
 package com.boot.demo.controllers;
 
 import com.boot.demo.dto.AnimalCode;
+import com.boot.demo.dto.FeedForAnimal;
 import com.boot.demo.model.Animal;
 import com.boot.demo.model.AnimalUser;
 import com.boot.demo.model.User;
@@ -40,6 +41,7 @@ public class PersonController {
     public String newAnimal(Model model) {
         model.addAttribute("person", userService.current);
         model.addAttribute("animal", new Animal());
+        model.addAttribute("feed", new FeedForAnimal());
         return "newAnimal";
     }
 
@@ -70,13 +72,16 @@ public class PersonController {
     }
 
     @PostMapping("/animal")
-    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result, Model model) {
+    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result,
+                             @Valid @ModelAttribute("feed") FeedForAnimal feed, Model model) {
+
         if (result.hasErrors()) {
             model.addAttribute("person", userService.current);
             return "newAnimal";
         }
         animalService.saveAnimal(animal);
         userService.connectUserAnimal(animal);
+        animalService.saveFeeds(animal, feed);
         return "redirect:/person";
     }
 }
