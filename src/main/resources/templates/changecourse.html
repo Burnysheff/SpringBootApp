@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:method="PATCH" name="form1" th:action="@{/course/{id}(id=${course.getId()})}" th:object="${course}">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" id="name">
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error!</div>
+        <br/>
+
+        <label for="finish">Finish</label>
+        <input type="text" th:field="*{finish}" id="finish">
+        <div style="color:red" th:if="${#fields.hasErrors('finish')}" th:errors="*{finish}">Date error!</div>
+        <br/>
+
+        <label for="company">Company</label>
+        <input type="text" th:field="*{company}" id="company">
+        <div style="color:red" th:if="${#fields.hasErrors('company')}" th:errors="*{company}">Company error!</div>
+        <br/>
+    </div>
+    <br/>
+    <div th:object="${theme}">
+        <label for="it">It</label>
+        <input id="it" type="checkbox" name="it"/>
+        <br/>
+        <label for="finance">Finance</label>
+        <input id="finance" type="checkbox" name="finance"/>
+        <br/>
+        <label for="qa">Qa</label>
+        <input id="qa" type="checkbox" name="qa"/>
+        <br/>
+    </div>
+</form>
+
+<br/>
+<hr/>
+
+<input type="button" value="Change" onclick="submitForms()"/>
+
+<script>
+    submitForms = function() {
+        document.forms["form1"].submit();
+    }
+</script>
+
+</body>
+</html>

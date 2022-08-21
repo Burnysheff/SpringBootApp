@@ -8,9 +8,9 @@
     <p>No reviews yet!</p>
     <hr/>
     <br/>
-    <a th:href="@{/animal/review/create/{id}(id=${animal.getId()})}">Create review</a>
+    <a th:href="@{/course/review/create/{id}(id=${course.getId()})}">Create review</a>
     <br/>
     <hr/>
-    <a th:href="@{/animal/{id}(id=${animal.getId()})}" th:text="${animal.getName()}">animal</a>
+    <a th:href="@{/course/{id}(id=${course.getId()})}" th:text="${course.getName()}">course</a>
 </body>
 </html>

@@ -13,13 +13,13 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "animals")
+@Table(name = "courses")
 @Entity
-public class Animal {
+public class Course {
 
     @Id
     @GeneratedValue
-    @Column(name="animal_id")
+    @Column(name="course_id")
     Long Id;
 
     @Size(min = 2, message = "Name should be 2 or more symbols long!")
@@ -28,10 +28,10 @@ public class Animal {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Please, specify the date of birth!")
-    @Column(name = "birth", nullable = false)
-    private Date birth;
+    @Column(name = "finish", nullable = false)
+    private Date finish;
 
     @Size(min = 2, message = "Type should be at least something!")
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "company", nullable = false)
+    private String company;
 }

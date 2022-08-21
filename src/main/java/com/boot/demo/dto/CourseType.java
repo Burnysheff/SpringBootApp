@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FeedForAnimal {
-    private boolean meat;
+public class CourseType {
+    private boolean it;
 
-    private boolean fruit;
+    private boolean finance;
 
-    private boolean veges;
+    private boolean qa;
 }

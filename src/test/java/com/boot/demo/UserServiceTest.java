@@ -1,6 +1,6 @@
 package com.boot.demo;
 
-import com.boot.demo.repos.AnimalUserRepository;
+import com.boot.demo.repos.CourseUserRepository;
 import com.boot.demo.repos.UserRepository;
 import com.boot.demo.service.UserService;
 import org.junit.Before;
@@ -30,7 +30,7 @@ class UserServiceTest {
 	private UserRepository userRepository;
 
 	@Autowired
-	private AnimalUserRepository animalUserRepository;
+	private CourseUserRepository courseUserRepository;
 
 	@Before
 	public void setUp() {
@@ -40,7 +40,7 @@ class UserServiceTest {
 	@BeforeEach
 	public void set() {
 		when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded");
-		this.service = new UserService(userRepository, animalUserRepository, bCryptPasswordEncoder);
+		this.service = new UserService(userRepository, courseUserRepository, bCryptPasswordEncoder);
 		service.addUser("name", "password");
 	}
 

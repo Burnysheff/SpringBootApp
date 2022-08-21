@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AnimalCode {
+public class CourseCode {
 
     @Min(value = 1, message = "Enter a positive number!")
     @NotNull(message = "Enter a positive number!")

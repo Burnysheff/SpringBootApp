@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <form method="POST" th:action="@{/animal/review/{id}(id=${animal.getId()})}" th:object="${review}">
+    <form method="POST" th:action="@{/course/review/{id}(id=${course.getId()})}" th:object="${review}">
         <div>
             <label for="text">Your review:</label>
             <input type="text" th:field="*{text}" id="text">
@@ -19,7 +19,7 @@
 
     <br/>
     <hr/>
-    <a th:href="@{/animal/review/{id}(id=${animal.getId()})}">Back to reviews</a>
+    <a th:href="@{/course/review/{id}(id=${course.getId()})}">Back to reviews</a>
 
 </body>
 </html>

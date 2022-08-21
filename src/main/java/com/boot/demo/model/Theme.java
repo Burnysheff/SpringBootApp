@@ -7,13 +7,13 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "feed")
+@Table(name = "theme")
 @Entity
-public class Feed {
+public class Theme {
     @Id
-    @Column(name = "feed_id")
+    @Column(name = "theme_id")
     Long id;
 
-    @Column(name = "food")
-    private String food;
+    @Column(name = "direct")
+    private String direct;
 }

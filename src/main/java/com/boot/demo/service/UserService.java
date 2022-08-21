@@ -1,9 +1,9 @@
 package com.boot.demo.service;
 
-import com.boot.demo.model.Animal;
-import com.boot.demo.model.AnimalUser;
+import com.boot.demo.model.Course;
+import com.boot.demo.model.CourseUser;
 import com.boot.demo.model.User;
-import com.boot.demo.repos.AnimalUserRepository;
+import com.boot.demo.repos.CourseUserRepository;
 import com.boot.demo.repos.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -26,12 +26,12 @@ public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
 
-    AnimalUserRepository animalUserRepository;
+    CourseUserRepository courseUserRepository;
 
-    public UserService(UserRepository repository, AnimalUserRepository animalUserRepository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository repository, CourseUserRepository courseUserRepository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = repository;
-        this.animalUserRepository = animalUserRepository;
+        this.courseUserRepository = courseUserRepository;
     }
 
     public boolean wasCreated(String name) {
@@ -56,8 +56,8 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void connectUserAnimal(Animal animal) {
-        animalUserRepository.save(new AnimalUser(this.current, animal));
+    public void connectUserCourse(Course course) {
+        courseUserRepository.save(new CourseUser(this.current, course));
     }
 
     @Override

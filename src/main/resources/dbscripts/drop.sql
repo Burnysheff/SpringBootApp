@@ -1,7 +1,7 @@
-DROP TABLE animal_review;
-DROP TABLE animal_user;
-DROP TABLE animal_feed;
-DROP TABLE feed;
-DROP TABLE animals;
+DROP TABLE course_review;
+DROP TABLE course_user;
+DROP TABLE course_theme;
+DROP TABLE theme;
+DROP TABLE courses;
 DROP TABLE users;
 DROP TABLE reviews;

@@ -5,8 +5,8 @@
     <title>List</title>
 </head>
 <body>
-<div th:each="animal : ${animalList}">
-  <a th:href="@{/animal/{id}(id=${animal.getId()})}" th:text="${animal.getName()}">animal</a>
+<div th:each="course : ${courseList}">
+  <a th:href="@{/course/{id}(id=${course.getId()})}" th:text="${course.getName()}">course</a>
 </div>
 
 <br/>

@@ -11,19 +11,19 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name = "animalFeed")
+@Table(name = "courseTheme")
 @Entity
-public class AnimalFeed {
+public class CourseTheme {
     @Id
     @GeneratedValue
     private Long Id;
 
     @ManyToOne
     @NonNull
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @NonNull
-    @JoinColumn(name = "feed_id")
-    private Long feedId;
+    @JoinColumn(name = "theme_id")
+    private Long themeId;
 }

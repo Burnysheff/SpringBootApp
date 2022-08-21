@@ -10,14 +10,14 @@ import javax.persistence.*;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name = "animalUser")
+@Table(name = "courseUser")
 @Entity
-public class AnimalUser {
+public class CourseUser {
 
     @Id
     @GeneratedValue
-    @Column(name="animalUser_id")
-    private Long animalUser;
+    @Column(name="courseUser_id")
+    private Long courseUser;
 
     @NonNull
     @ManyToOne
@@ -26,6 +26,6 @@ public class AnimalUser {
 
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "animal_id", nullable = false)
-    private Animal animal;
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
 }

@@ -8,9 +8,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name = "animalReview")
+@Table(name = "course_review")
 @Entity
-public class AnimalReview {
+public class CourseReview {
     @Id
     @GeneratedValue
     private Long Id;
@@ -18,8 +18,8 @@ public class AnimalReview {
 
     @ManyToOne
     @NonNull
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @ManyToOne
     @NonNull

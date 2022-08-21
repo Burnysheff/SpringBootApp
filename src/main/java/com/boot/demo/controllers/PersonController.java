@@ -1,12 +1,10 @@
 package com.boot.demo.controllers;
 
-import com.boot.demo.dto.AnimalCode;
-import com.boot.demo.dto.FeedForAnimal;
-import com.boot.demo.model.Animal;
-import com.boot.demo.model.AnimalUser;
+import com.boot.demo.dto.CourseCode;
+import com.boot.demo.dto.CourseType;
+import com.boot.demo.model.Course;
 import com.boot.demo.model.User;
-import com.boot.demo.repos.AnimalUserRepository;
-import com.boot.demo.service.AnimalService;
+import com.boot.demo.service.CourseService;
 import com.boot.demo.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,66 +20,66 @@ import java.util.List;
 public class PersonController {
     UserService userService;
 
-    AnimalService animalService;
+    CourseService courseService;
 
-    public PersonController(UserService userService, AnimalService animalService) {
+    public PersonController(UserService userService, CourseService courseService) {
         this.userService = userService;
-        this.animalService = animalService;
+        this.courseService = courseService;
     }
 
     @GetMapping()
     public String main(Model model) {
         userService.current = userService.findUserById(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         model.addAttribute("person", userService.current);
-        model.addAttribute("animalCode", new AnimalCode());
+        model.addAttribute("courseCode", new CourseCode());
         return "person";
     }
 
-    @GetMapping("/newAnimal")
-    public String newAnimal(Model model) {
+    @GetMapping("/newCourse")
+    public String newCourse(Model model) {
         model.addAttribute("person", userService.current);
-        model.addAttribute("animal", new Animal());
-        model.addAttribute("feed", new FeedForAnimal());
-        return "newAnimal";
+        model.addAttribute("course", new Course());
+        model.addAttribute("theme", new CourseType());
+        return "newCourse";
     }
 
-    @GetMapping("/listAnimal")
-    public String listAnimal(Model model) {
-        List<Animal> animalList = animalService.findAllByOwner(userService.current);
+    @GetMapping("/listCourse")
+    public String listCourse(Model model) {
+        List<Course> courseList = courseService.findAllByOwner(userService.current);
         model.addAttribute("person", userService.current);
-        model.addAttribute("animalList", animalList);
-        if (animalList.isEmpty()) {
+        model.addAttribute("courseList", courseList);
+        if (courseList.isEmpty()) {
             return "nothing";
         }
-        return "animalList";
+        return "courseList";
     }
 
     @PostMapping("/find")
-    public String find(@Valid @ModelAttribute("animalCode") AnimalCode code, BindingResult result, Model model) {
+    public String find(@Valid @ModelAttribute("courseCode") CourseCode code, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("person", userService.current);
             return "person";
         }
         model.addAttribute("person", userService.current);
-        if (animalService.checkPresentById(code.getValue())) {
-            model.addAttribute("animal", animalService.findById(code.getValue()));
+        if (courseService.checkPresentById(code.getValue())) {
+            model.addAttribute("course", courseService.findById(code.getValue()));
         } else {
             return "nothing";
         }
-        return "animal";
+        return "course";
     }
 
-    @PostMapping("/animal")
-    public String showAnimal(@Valid @ModelAttribute("animal") Animal animal, BindingResult result,
-                             @Valid @ModelAttribute("feed") FeedForAnimal feed, Model model) {
+    @PostMapping("/course")
+    public String showAnimal(@Valid @ModelAttribute("course") Course course, BindingResult result,
+                             @Valid @ModelAttribute("theme") CourseType type, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("person", userService.current);
-            return "newAnimal";
+            return "newCourse";
         }
-        animalService.saveAnimal(animal);
-        userService.connectUserAnimal(animal);
-        animalService.saveFeeds(animal, feed);
+        courseService.saveCourse(course);
+        userService.connectUserCourse(course);
+        courseService.saveTheme(course, type);
         return "redirect:/person";
     }
 }

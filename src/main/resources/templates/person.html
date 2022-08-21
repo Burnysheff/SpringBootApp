@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<a th:href="@{/person/newAnimal}"> Create Animal </a>
+<a th:href="@{/person/newCourse}"> Create Course </a>
 <br/>
-<a th:href="@{/person/listAnimal}"> See my animals </a>
+<a th:href="@{/person/listCourse}"> See my courses </a>
 <br/>
 <hr/>
 <br/>
-<p>Look for some animal:</p>
-<form method="POST" th:action="@{/person/find}" th:object="${animalCode}">
+<p>Look for some course:</p>
+<form method="POST" th:action="@{/person/find}" th:object="${courseCode}">
     <div>
         <label for="value">Id:</label>
         <input type="number" th:field="*{value}" id="value">

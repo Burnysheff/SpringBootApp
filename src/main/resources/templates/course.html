@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p th:text="${'Name: ' + course.getName()}"></p>
+    <p th:text="${'Company: ' + course.getCompany()}"></p>
+    <p th:text="${'Finish: ' + course.getFinish()}"></p>
+    <p th:text="${'ID: ' + course.getId()}"></p>
+    <br/>
+    <p>Feed with:</p>
+    <div th:each="theme : ${theme}">
+        <p th:text="${theme}">theme</p>
+    </div>
+    <a th:href="@{/course/patch/{id}(id=${course.getId()})}">Change course</a>
+<br/>
+<hr/>
+<form th:method="POST" th:action="@{/course/{id}(id=${course.getId()})}">
+    <input name="_method" type="hidden" value="DELETE" />
+    <input type="submit" value="Delete him!"/>
+</form>
+</body>
+
+<br/>
+<a th:href="@{/person}"> Back to person </a>
+
+<br/>
+<hr/>
+<a th:href="@{/course/review/{id}(id=${course.getId()})}"> See reviews </a>
+</html>
