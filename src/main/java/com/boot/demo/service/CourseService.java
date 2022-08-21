@@ -39,13 +39,6 @@ public class CourseService {
         return courseUserRepository.findAllByUser(user).stream().map(CourseUser::getCourse).collect(Collectors.toList());
     }
 
-    public Course getCourseById(Long id) {
-        if (courseRepository.findById(id).isEmpty()) {
-            return null;
-        }
-        return courseRepository.findById(id).get();
-    }
-
     public boolean checkPresentById(Long id) {
         return courseRepository.findById(id).isPresent();
     }

@@ -38,7 +38,7 @@ public class CourseController {
     public String goToChange(Model model, @PathVariable("id") Long id) {
         model.addAttribute("course", courseService.findById(id));
         model.addAttribute("theme", new CourseType());
-        if (!courseService.findAllByOwner(userService.current).contains(courseService.getCourseById(id)) ||
+        if (!courseService.findAllByOwner(userService.current).contains(courseService.findById(id)) ||
         !courseService.getAllReviewById(id).isEmpty()) {
             return "changereject";
         }
@@ -69,7 +69,7 @@ public class CourseController {
         }
         Review review = new Review(userService.current.getName() + ": " + text.getText());
         courseService.addReview(review);
-        courseService.addCourseReview(review, courseService.getCourseById(id));
+        courseService.addCourseReview(review, courseService.findById(id));
         return "redirect:/course/review/" + id;
     }
 

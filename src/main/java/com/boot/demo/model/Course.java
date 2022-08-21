@@ -34,4 +34,10 @@ public class Course {
     @Size(min = 2, message = "Type should be at least something!")
     @Column(name = "company", nullable = false)
     private String company;
+
+    public Course(String name, Date date, String company) {
+        this.setName(name);
+        this.setCompany(company);
+        this.setFinish(date);
+    }
 }

@@ -17,7 +17,7 @@ public class CourseUser {
     @Id
     @GeneratedValue
     @Column(name="courseUser_id")
-    private Long courseUser;
+    Long id;
 
     @NonNull
     @ManyToOne

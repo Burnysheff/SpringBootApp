@@ -1,5 +1,6 @@
 package com.boot.demo;
 
+import com.boot.demo.model.User;
 import com.boot.demo.repos.CourseUserRepository;
 import com.boot.demo.repos.UserRepository;
 import com.boot.demo.service.UserService;
@@ -11,15 +12,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserServiceTest {
 	private UserService service;
 
@@ -55,7 +57,31 @@ class UserServiceTest {
 	}
 
 	@Test
+	public void checkNotCreated() {
+		assertFalse(service.wasCreated("heh"));
+	}
+
+	@Test
 	public void checkLoadByUsername() {
 		assertEquals(service.loadUserByUsername("name").getPassword(), "encoded");
+	}
+
+	@Test
+	public void checkAdding() {
+		when(bCryptPasswordEncoder.encode("pass")).thenReturn("pass");
+		service.addUser("nick", "pass");
+		assertEquals(service.findUserByName("nick").getPassword(), "pass");
+	}
+
+	@Test
+	public void checkFindById() {
+		Long id = service.findUserByName("name").getId();
+		assertEquals(service.findUserById(id).getName(), "name");
+	}
+
+	@Test
+	public void checkFindByIdFalse() {
+		service.addUser("nick", "pass");
+		assertNull(service.findUserById(0L).getName(), "nick");
 	}
 }
