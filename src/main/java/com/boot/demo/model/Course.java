@@ -40,4 +40,8 @@ public class Course {
         this.setCompany(company);
         this.setFinish(date);
     }
+
+    public String getFullName() {
+        return "Course: " + this.name + "; From: " + this.company + ".\n";
+    }
 }

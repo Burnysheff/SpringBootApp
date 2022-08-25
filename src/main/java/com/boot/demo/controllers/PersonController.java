@@ -1,6 +1,7 @@
 package com.boot.demo.controllers;
 
 import com.boot.demo.dto.CourseCode;
+import com.boot.demo.dto.CourseName;
 import com.boot.demo.dto.CourseType;
 import com.boot.demo.model.Course;
 import com.boot.demo.model.User;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,6 +34,7 @@ public class PersonController {
         userService.current = userService.findUserById(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         model.addAttribute("person", userService.current);
         model.addAttribute("courseCode", new CourseCode());
+        model.addAttribute("courseName", new CourseName());
         return "person";
     }
 
@@ -67,6 +70,23 @@ public class PersonController {
             return "nothing";
         }
         return "course";
+    }
+
+    @PostMapping("/findName")
+    public String findName(@Valid @ModelAttribute("courseName") CourseName name, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("person", userService.current);
+            return "person";
+        }
+        model.addAttribute("person", userService.current);
+        if (courseService.checkPresentByName(name.getName()) || courseService.checkPresentByCompany(name.getName())) {
+            List<Course> courses = new ArrayList<>(courseService.findByName(name.getName()));
+            courses.addAll(courseService.findByCompany(name.getName()));
+            model.addAttribute("courseList", courses);
+        } else {
+            return "nothing";
+        }
+        return "courseList";
     }
 
     @PostMapping("/course")

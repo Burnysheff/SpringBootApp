@@ -43,12 +43,28 @@ public class CourseService {
         return courseRepository.findById(id).isPresent();
     }
 
+    public boolean checkPresentByName(String name) {
+        return !courseRepository.findAllCourseByName(name).isEmpty();
+    }
+
+    public boolean checkPresentByCompany(String company) {
+        return !courseRepository.findAllCourseByCompany(company).isEmpty();
+    }
+
     public Course findById(Long id) {
         if (courseRepository.findById(id).isPresent()) {
             return courseRepository.findById(id).get();
         } else {
             return new Course();
         }
+    }
+
+    public List<Course> findByName(String name) {
+        return courseRepository.findAllCourseByName(name);
+    }
+
+    public List<Course> findByCompany(String company) {
+        return courseRepository.findAllCourseByCompany(company);
     }
 
     public List<Review> getAllReviewById(Long id) {
