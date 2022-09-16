@@ -1,4 +1,4 @@
-package com.boot.demo.repos;
+package com.boot.demo.repo;
 
 import com.boot.demo.model.User;
 import org.springframework.data.repository.CrudRepository;

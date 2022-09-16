@@ -1,4 +1,4 @@
-package com.boot.demo.controllers;
+package com.boot.demo.controller;
 
 import com.boot.demo.dto.CourseType;
 import com.boot.demo.dto.ReviewText;

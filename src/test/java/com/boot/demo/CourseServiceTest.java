@@ -3,7 +3,7 @@ package com.boot.demo;
 import com.boot.demo.model.Course;
 import com.boot.demo.model.CourseUser;
 import com.boot.demo.model.User;
-import com.boot.demo.repos.*;
+import com.boot.demo.repo.*;
 import com.boot.demo.service.CourseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

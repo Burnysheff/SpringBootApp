@@ -2,7 +2,7 @@ package com.boot.demo.service;
 
 import com.boot.demo.dto.CourseType;
 import com.boot.demo.model.*;
-import com.boot.demo.repos.*;
+import com.boot.demo.repo.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

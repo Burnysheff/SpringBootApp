@@ -1,8 +1,7 @@
 package com.boot.demo;
 
-import com.boot.demo.model.User;
-import com.boot.demo.repos.CourseUserRepository;
-import com.boot.demo.repos.UserRepository;
+import com.boot.demo.repo.CourseUserRepository;
+import com.boot.demo.repo.UserRepository;
 import com.boot.demo.service.UserService;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;

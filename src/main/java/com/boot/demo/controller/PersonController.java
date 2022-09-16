@@ -1,4 +1,4 @@
-package com.boot.demo.controllers;
+package com.boot.demo.controller;
 
 import com.boot.demo.dto.CourseCode;
 import com.boot.demo.dto.CourseName;
